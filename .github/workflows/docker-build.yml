@@ -19,8 +19,8 @@ jobs:
           context: .
           push: true
           tags: |
-            mattan41/searchService:latest
-            mattan41/searchService:${{ github.sha }}
+            mattan41/searchservice:latest
+            mattan41/searchservice:${{ github.sha }}
           platforms: |
             linux/amd64
             linux/arm64
