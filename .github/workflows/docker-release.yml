@@ -33,7 +33,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: docker.io
-          username: Mattan41
+          username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Docker meta
@@ -41,7 +41,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/chatgut/searchservice3
+            docker.io/mattan41/iths-projects
           tags: |
             type=ref,event=tag
             type=semver,pattern={{raw}}
