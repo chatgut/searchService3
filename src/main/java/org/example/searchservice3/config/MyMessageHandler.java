@@ -6,12 +6,10 @@ import org.example.searchservice3.service.SearchService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.CountDownLatch;
 
 @Service
 public class MyMessageHandler implements MessageListener {
