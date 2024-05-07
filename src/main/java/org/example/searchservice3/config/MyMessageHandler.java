@@ -19,24 +19,28 @@ public class MyMessageHandler implements MessageListener {
         this.searchService = searchService;
     }
 
-
     @Override
     @RabbitListener(queues = "messages")
     public void onMessage(Message message) {
-        //print out the message
-        System.out.println("Received message: " + message.toString());
         try {
-            String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
-            // Extract relevant information from the message body
-            // For example, assuming the message body contains a JSON object with a "message" field:
-            JsonNode messageJson = new ObjectMapper().readTree(messageBody);
-            String text = messageJson.get("message").asText();
 
-            // Print out a message to confirm that the queue is registered + the message
-            System.out.println("Queue 'messages' is registered. Received message: " + text);
+            String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
+            //System.out.println(messageBody);
+
+            // Extract the information from the message:
+            JsonNode messageJson = new ObjectMapper().readTree(messageBody);
+
+            // Extract the information from the message
+
+            String id = messageJson.get("_id").get("$oid").asText();
+            String fromUser = messageJson.get("from").asText();
+            String toUser = messageJson.get("to").asText();
+            String messageText = messageJson.get("message").asText();
+            String date = messageJson.get("date").asText();
 
             // Pass the extracted information to the search service for indexing
-            searchService.indexMessage(text);
+            searchService.indexMessage(id, fromUser, toUser, messageText, date);
+
         } catch (IOException e) {
             // Handle any exceptions that occur during message processing
             e.printStackTrace();

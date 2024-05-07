@@ -46,7 +46,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            docker.io/mattan41/chatgut
+            mattan41/chatgut
           tags: |
             type=ref,event=tag
             type=semver,pattern={{raw}}
