@@ -62,3 +62,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Tag latest
+        uses: docker/tag-action@v3
+        with:
+          registry: docker.io
+          repository: mattan41/chatgut
+          tag: latest
+          ref: ${{ steps.meta.outputs.tags }}

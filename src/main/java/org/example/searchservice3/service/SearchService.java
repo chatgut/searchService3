@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class SearchService {
 
-    @Autowired
-    ElasticsearchOperations elasticsearchOperations;
+    private final ElasticsearchOperations elasticsearchOperations;
     private final SearchRepository searchRepository;
 
-    // could replace @Autowired with @Qualifier("elasticsearchOperations") ElasticsearchOperations elasticsearchOperations in the constructor
-    public SearchService(SearchRepository searchRepository) {
+    public SearchService(SearchRepository searchRepository, ElasticsearchOperations elasticsearchOperations) {
         this.searchRepository = searchRepository;
+        this.elasticsearchOperations = elasticsearchOperations;
     }
 
 
@@ -30,7 +30,7 @@ public class SearchService {
         document.setDate(date);
         //elasticsearchOperations.save(document);
         searchRepository.save(document);
-        System.out.println("Indexing message: " + id + " " + fromUser + " " + toUser + " " + messageText + " " + date);
+        //System.out.println("Indexing message: " + id + " " + fromUser + " " + toUser + " " + messageText + " " + date);
     }
 
 
@@ -38,10 +38,15 @@ public class SearchService {
 
         MessageDocument document = elasticsearchOperations.get(Objects.requireNonNull(elasticsearchOperations.convertId(id)), MessageDocument.class);
 
-        if (document != null) {
+        if (document != null)
             return document.getMessage();
-        } else {
+        else
             return null;
-        }
+
+    }
+
+    public List<MessageDocument> findAllMessages() {
+
+        return searchRepository.findAll();
     }
 }
