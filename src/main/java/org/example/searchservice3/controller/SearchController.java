@@ -28,4 +28,10 @@ public class SearchController {
         return searchService.findMessageById(id);
     }
 
+    @GetMapping("/all")
+    public String all() {
+        return searchService.findAllMessages().toString();
+    }
+
+
 }
