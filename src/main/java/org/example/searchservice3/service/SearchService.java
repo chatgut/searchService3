@@ -34,7 +34,7 @@ public class SearchService {
     }
 
 
-    public String searchMessage(String id) {
+    public String findMessageById(String id) {
 
         MessageDocument document = elasticsearchOperations.get(Objects.requireNonNull(elasticsearchOperations.convertId(id)), MessageDocument.class);
 

@@ -25,7 +25,7 @@ public class SearchController {
     @GetMapping("/message/{id}")
     public String message(@PathVariable String id) {
 
-        return searchService.searchMessage(id);
+        return searchService.findMessageById(id);
     }
 
 }
