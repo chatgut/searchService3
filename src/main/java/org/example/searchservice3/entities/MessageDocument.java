@@ -12,20 +12,16 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Getter
 @Setter
 @Document(indexName = "messages", createIndex = true)
-public class IncomingMessage {
+public class MessageDocument {
+    @Id
+    private String id;
 
-
-        @Id
-        private String id;
-
-        @Field(type = FieldType.Keyword, name = "userID")
-        private String userID;
-
-        @Field(type = FieldType.Text, name = "message")
-        private long message;
-
-        public IncomingMessage(String userID, long message) {
-                this.userID = userID;
-                this.message = message;
-        }
+    @Field(type = FieldType.Text, name = "from")
+    private String from;
+    @Field(type = FieldType.Text, name = "to")
+    private String to;
+    @Field(type = FieldType.Text, name = "message")
+    private String message;
+    @Field(type = FieldType.Text, name = "date")
+    private String date;
 }
