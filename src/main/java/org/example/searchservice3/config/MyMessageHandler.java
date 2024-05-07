@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CountDownLatch;
 
 @Service
-@RabbitListener(queues = "messages")
 public class MyMessageHandler implements MessageListener {
     private final SearchService searchService;
 
@@ -24,15 +23,18 @@ public class MyMessageHandler implements MessageListener {
 
 
     @Override
+    @RabbitListener(queues = "messages")
     public void onMessage(Message message) {
+        //print out the message
+        System.out.println("Received message: " + message.toString());
         try {
             String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
             // Extract relevant information from the message body
-            // For example, assuming the message body contains a JSON object with a "text" field:
+            // For example, assuming the message body contains a JSON object with a "message" field:
             JsonNode messageJson = new ObjectMapper().readTree(messageBody);
-            String text = messageJson.get("text").asText();
+            String text = messageJson.get("message").asText();
 
-            // Print a test message to indicate that the queue is registered
+            // Print out a message to confirm that the queue is registered + the message
             System.out.println("Queue 'messages' is registered. Received message: " + text);
 
             // Pass the extracted information to the search service for indexing
