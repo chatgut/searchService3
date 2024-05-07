@@ -54,13 +54,6 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=sha
 
-      - name: Remove previous latest tag
-        uses: docker/metadata-action@v5
-        with:
-          images: mattan41/chatgut
-          tags: latest
-          remove: true
-
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
