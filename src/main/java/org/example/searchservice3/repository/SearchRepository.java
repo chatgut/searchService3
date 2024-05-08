@@ -8,4 +8,7 @@ import java.util.List;
 public interface SearchRepository extends ElasticsearchRepository<MessageDocument, String> {
 
     List<MessageDocument> findAll();
+
+    List<MessageDocument> findByMessageContaining(String text);
+
 }

@@ -49,4 +49,9 @@ public class SearchService {
 
         return searchRepository.findAll();
     }
+
+    public List<MessageDocument> search(String text) {
+
+        return searchRepository.findByMessageContaining(text);
+    }
 }
