@@ -30,10 +30,15 @@ public class SearchController {
     }
 
 
-    @GetMapping("/search/{text}")
-    public List<MessageDocument> search(@PathVariable String text) {
+    @GetMapping("/searchExact/{text}")
+    public List<MessageDocument> searchExact(@PathVariable String text) {
 
         return searchService.search(text);
+    }
+
+    @GetMapping("/search/{text}")
+    public List<MessageDocument> search(@PathVariable String text) {
+        return searchService.findByMessageContainingWithSpellingErrors(text);
     }
 
     @GetMapping("/message/{id}")

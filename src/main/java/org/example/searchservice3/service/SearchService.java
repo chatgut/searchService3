@@ -1,11 +1,18 @@
 package org.example.searchservice3.service;
 
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.example.searchservice3.entities.MessageDocument;
 import org.example.searchservice3.repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +37,7 @@ public class SearchService {
         document.setDate(date);
         //elasticsearchOperations.save(document);
         searchRepository.save(document);
-        //System.out.println("Indexing message: " + id + " " + fromUser + " " + toUser + " " + messageText + " " + date);
+        System.out.println("Indexing message: " + id + " " + fromUser + " " + toUser + " " + messageText + " " + date);
     }
 
 
@@ -53,5 +60,10 @@ public class SearchService {
     public List<MessageDocument> search(String text) {
 
         return searchRepository.findByMessageContaining(text);
+    }
+
+
+    public List<MessageDocument> findByMessageContainingWithSpellingErrors(String text) {
+        return searchRepository.findByMessageContainingWithSpellingErrors(text);
     }
 }
