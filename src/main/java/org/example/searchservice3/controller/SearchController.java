@@ -41,6 +41,14 @@ public class SearchController {
         return searchService.findByMessageContainingWithSpellingErrors(text);
     }
 
+
+    @GetMapping("/find/{text}")
+    public List<MessageDocument> findAsYouType(@PathVariable String text) {
+        return searchService.findByMessageAsYouType(text);
+    }
+
+
+
     @GetMapping("/message/{id}")
     public String message(@PathVariable String id) {
 

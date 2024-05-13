@@ -66,4 +66,8 @@ public class SearchService {
     public List<MessageDocument> findByMessageContainingWithSpellingErrors(String text) {
         return searchRepository.findByMessageContainingWithSpellingErrors(text);
     }
+
+    public List<MessageDocument> findByMessageAsYouType(String text) {
+        return searchRepository.findByMessageAsYouType(text);
+    }
 }
