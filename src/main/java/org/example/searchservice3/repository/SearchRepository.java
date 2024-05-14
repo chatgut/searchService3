@@ -31,8 +31,8 @@ public interface SearchRepository extends ElasticsearchRepository<MessageDocumen
                 "must": [{
                   "bool": {
                     "should": [
-                      {"match": {"to": "?1"}},
-                      {"match": {"from": "?1"}}
+                      {"term": {"to": "?1"}},
+                      {"term": {"from": "?1"}}
                     ]
                     }},{
                   "match": {
@@ -55,24 +55,33 @@ public interface SearchRepository extends ElasticsearchRepository<MessageDocumen
             {
                 "bool": {
                   "must": [{
-                    "bool": {
+                      "bool": {
                         "should": [{
-                          "must": [
-                          {"term": {"to": "?1"} },
-                          {"term": {"from": "?2"}}
-                          ]
+                          "bool": {
+                            "must": [
+                              {"term": {"to": "?1"} },
+                              {"term": {"from": "?2"}}
+                            ]
+                          }
                         },
-                        {
-                          "must": [
+                      {
+                      "bool": {
+                        "must": [
                           {"term": {"to": "?2"} },
                           {"term": {"from": "?1"}}
-                          ]
-                        }],
+                        ]
+                      }
+                      }]
+                      }},{
                       "match": {
                         "message": {
                           "query": "?0",
                           "operator": "and",
-                          "fuzziness": "AUTO"}}}}]}}
+                          "fuzziness": "AUTO"}
+                      }}
+                  ]
+                }
+            }
             """)
     List<MessageDocument> findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(String text, String userID, String otherUserID);
 

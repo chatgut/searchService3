@@ -19,10 +19,10 @@ public class SearchController {
     }
 
 
-    @GetMapping("/search/{text}")
-    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID, @PathVariable String text) {
-        return searchService.search(text, userID);
-    }
+//    @GetMapping("/search/{text}")
+//    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID, @PathVariable String text) {
+//        return searchService.search(text, userID);
+//    }
 
 //    @GetMapping("/search")
 //    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID,
@@ -32,17 +32,17 @@ public class SearchController {
 //    }
 
 
-//    @GetMapping("/search")
-//    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID,
-//                                        @RequestBody Map<String, String> requestBody,
-//                                        @RequestParam(required = false) String otherUserID) {
-//        String text = requestBody.get("text");
-//        if (otherUserID != null) {
-//            return searchService.getMessagesBetweenUsers(text, userID, otherUserID);
-//        } else {
-//            return searchService.search(text, userID);
-//        }
-//    }
+    @GetMapping("/search")
+    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID,
+                                        @RequestParam String text,
+                                        @RequestParam(required = false) String otherUserID) {
+
+        if (otherUserID != null) {
+            return searchService.getMessagesBetweenUsers(text, userID, otherUserID);
+        } else {
+            return searchService.search(text, userID);
+        }
+    }
 
 
     @GetMapping("/find/{text}")
