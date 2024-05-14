@@ -39,8 +39,6 @@ public class SearchService {
 
         List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
 
-        // Filter messages based on userID matching 'from' or 'to' field
-
         return messages.stream()
                 .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
                 .collect(Collectors.toList());
@@ -68,5 +66,14 @@ public class SearchService {
     public List<MessageDocument> findAllMessages() {
 
         return searchRepository.findAll();
+    }
+
+    public List<MessageDocument> getMessagesBetweenUsers(String text, String userID, String otherUserID) {
+        List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID, otherUserID);
+
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
+
     }
 }
