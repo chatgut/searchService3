@@ -10,16 +10,20 @@ public interface SearchRepository extends ElasticsearchRepository<MessageDocumen
 
     List<MessageDocument> findAll();
 
-    //search on words
-    List<MessageDocument> findByMessageContaining(String text);
+//  search on words
+    List<MessageDocument> findByMessageContainingIgnoreCase(String text);
 
-//    allows for spelling errors, multiple results returned with spaces in between words
-    @Query("{\"match\": {\"message\":{\"query\":\"?0\",\"fuzziness\":\"AUTO\"}}}")
-    List<MessageDocument> findByMessageContainingWithSpellingErrors(String text);
+//    allows for spelling errors, multiple results returned with AND instead of OR
+    //@Query("{\"match\": {\"message\":{\"query\":\"?0\",\"fuzziness\":\"AUTO\"}}}")
+    //List<MessageDocument> findByMessageContainingWithSpellingErrorsAndToOrFromContainingIgnoreCase(String text);
+
+    @Query("{\"bool\": {\"must\": [{\"bool\": {\"should\": [{\"match\": {\"to\": \"?1\"}}, {\"match\": {\"from\": \"?1\"}}]}}, {\"match\": {\"message\": {\"query\": \"?0\", \"fuzziness\": \"AUTO\"}}}]}}")
+    List<MessageDocument> findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(String text, String userID);
+
 
     //search on whole phrases
 //    @Query("{\"match_phrase\":{\"message\":\"?0\"}}")
-//    List<MessageDocument> findByMessageContainingWithSpellingErrors(String text);
+//    List<MessageDocument> findByMessageContaining(String text);
 
 
     //find as you type

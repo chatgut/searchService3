@@ -1,23 +1,25 @@
 package org.example.searchservice3.service;
 
-import co.elastic.clients.elasticsearch.core.SearchRequest;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import org.elasticsearch.client.RestClient;
 import org.example.searchservice3.entities.MessageDocument;
 import org.example.searchservice3.repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class SearchService {
+
+    @Autowired
+    ElasticsearchClient elasticsearchClient;
+
+    @Autowired
+    RestClient restClient;
+
 
     private final ElasticsearchOperations elasticsearchOperations;
     private final SearchRepository searchRepository;
@@ -59,12 +61,12 @@ public class SearchService {
 
     public List<MessageDocument> search(String text) {
 
-        return searchRepository.findByMessageContaining(text);
+        return searchRepository.findByMessageContainingIgnoreCase(text);
     }
 
+    public List<MessageDocument> searchWithSpellingErrors(String text, String userID) {
 
-    public List<MessageDocument> findByMessageContainingWithSpellingErrors(String text) {
-        return searchRepository.findByMessageContainingWithSpellingErrors(text);
+        return searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
     }
 
     public List<MessageDocument> findByMessageAsYouType(String text) {
