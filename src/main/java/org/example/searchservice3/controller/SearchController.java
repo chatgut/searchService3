@@ -27,8 +27,8 @@ public class SearchController {
 
 
     @GetMapping("/find/{text}")
-    public List<MessageDocument> findAsYouType(@PathVariable String text) {
-        return searchService.findByMessageAsYouType(text);
+    public List<MessageDocument> findAsYouType( @RequestHeader (name = "UserID") String userId, @PathVariable String text) {
+        return searchService.findByMessageAsYouType(text, userId);
     }
 
 

@@ -47,8 +47,11 @@ public class SearchService {
 
     }
 
-    public List<MessageDocument> findByMessageAsYouType(String text) {
-        return searchRepository.findByMessageAsYouType(text);
+    public List<MessageDocument> findByMessageAsYouType(String text, String userID) {
+        List<MessageDocument> messages = searchRepository.findByMessageAsYouType(text);
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
     }
 
     public String findMessageById(String id) {
