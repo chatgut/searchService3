@@ -20,16 +20,9 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-
-    @GetMapping("/searchExact/{text}")
-    public List<MessageDocument> searchExact(@PathVariable String text) {
-
-        return searchService.search(text);
-    }
-
     @GetMapping("/search/{text}")
     public List<MessageDocument> search(@RequestHeader (name = "UserID") String userID, @PathVariable String text) {
-        return searchService.searchWithSpellingErrors(text, userID);
+        return searchService.search(text, userID);
     }
 
 

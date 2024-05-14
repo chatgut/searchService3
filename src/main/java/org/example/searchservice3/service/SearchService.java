@@ -14,13 +14,6 @@ import java.util.Objects;
 @Service
 public class SearchService {
 
-    @Autowired
-    ElasticsearchClient elasticsearchClient;
-
-    @Autowired
-    RestClient restClient;
-
-
     private final ElasticsearchOperations elasticsearchOperations;
     private final SearchRepository searchRepository;
 
@@ -43,6 +36,15 @@ public class SearchService {
     }
 
 
+    public List<MessageDocument> search(String text, String userID) {
+
+        return searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
+    }
+
+    public List<MessageDocument> findByMessageAsYouType(String text) {
+        return searchRepository.findByMessageAsYouType(text);
+    }
+
     public String findMessageById(String id) {
 
         MessageDocument document = elasticsearchOperations.get(Objects.requireNonNull(elasticsearchOperations.convertId(id)), MessageDocument.class);
@@ -57,19 +59,5 @@ public class SearchService {
     public List<MessageDocument> findAllMessages() {
 
         return searchRepository.findAll();
-    }
-
-    public List<MessageDocument> search(String text) {
-
-        return searchRepository.findByMessageContainingIgnoreCase(text);
-    }
-
-    public List<MessageDocument> searchWithSpellingErrors(String text, String userID) {
-
-        return searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
-    }
-
-    public List<MessageDocument> findByMessageAsYouType(String text) {
-        return searchRepository.findByMessageAsYouType(text);
     }
 }
