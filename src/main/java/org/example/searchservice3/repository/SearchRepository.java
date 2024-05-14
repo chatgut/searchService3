@@ -10,7 +10,7 @@ public interface SearchRepository extends ElasticsearchRepository<MessageDocumen
 
     List<MessageDocument> findAll();
 
-    //    allows for spelling errors, multiple results returned with AND instead of OR
+    //    allows for spelling errors, results returned with AND instead of OR
     @Query("{\"bool\": {\"must\": [{\"bool\": {\"should\": [{\"match\": {\"to\": \"?1\"}}, {\"match\": {\"from\": \"?1\"}}]}}, {\"match\": {\"message\": {\"query\": \"?0\", \"operator\": \"and\", \"fuzziness\": \"AUTO\"}}}]}}")
     List<MessageDocument> findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(String text, String userID);
 

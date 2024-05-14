@@ -1,15 +1,13 @@
 package org.example.searchservice3.service;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import org.elasticsearch.client.RestClient;
 import org.example.searchservice3.entities.MessageDocument;
 import org.example.searchservice3.repository.SearchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchService {
@@ -38,7 +36,15 @@ public class SearchService {
 
     public List<MessageDocument> search(String text, String userID) {
 
-        return searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
+
+        List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
+
+        // Filter messages based on userID matching 'from' or 'to' field
+
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
+
     }
 
     public List<MessageDocument> findByMessageAsYouType(String text) {
