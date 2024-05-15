@@ -38,5 +38,15 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
 
+  searchservice:
+    image: mattan41/chatgut:sha-128d5c1
+    container_name: searchService
+    restart: on-failure
+    depends_on:
+      - mongodb
+      - rabbitMQ
+    ports:
+      - "8004:8004"
+
 volumes:
   dbData:
