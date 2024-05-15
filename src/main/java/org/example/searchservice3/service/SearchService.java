@@ -36,8 +36,16 @@ public class SearchService {
 
     public List<MessageDocument> search(String text, String userID) {
 
-
         List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
+
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<MessageDocument> searchMessagesInConversation(String text, String userID, String otherUserID) {
+        List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID, otherUserID);
 
         return messages.stream()
                 .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
@@ -47,6 +55,7 @@ public class SearchService {
 
     public List<MessageDocument> findByMessageAsYouType(String text, String userID) {
         List<MessageDocument> messages = searchRepository.findByMessageAsYouType(text);
+
         return messages.stream()
                 .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
                 .collect(Collectors.toList());
@@ -66,14 +75,5 @@ public class SearchService {
     public List<MessageDocument> findAllMessages() {
 
         return searchRepository.findAll();
-    }
-
-    public List<MessageDocument> getMessagesBetweenUsers(String text, String userID, String otherUserID) {
-        List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID, otherUserID);
-
-        return messages.stream()
-                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
-                .collect(Collectors.toList());
-
     }
 }

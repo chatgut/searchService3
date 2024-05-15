@@ -6,7 +6,6 @@ import org.example.searchservice3.service.SearchService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class SearchController {
@@ -19,17 +18,6 @@ public class SearchController {
     }
 
 
-//    @GetMapping("/search/{text}")
-//    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID, @PathVariable String text) {
-//        return searchService.search(text, userID);
-//    }
-
-//    @GetMapping("/search")
-//    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID,
-//                                        @RequestBody Map<String, String> requestBody){
-//        String text = requestBody.get("text");
-//            return searchService.search(text, userID);
-//    }
 
 
     @GetMapping("/search")
@@ -38,7 +26,7 @@ public class SearchController {
                                         @RequestParam(required = false) String otherUserID) {
 
         if (otherUserID != null) {
-            return searchService.getMessagesBetweenUsers(text, userID, otherUserID);
+            return searchService.searchMessagesInConversation(text, userID, otherUserID);
         } else {
             return searchService.search(text, userID);
         }
