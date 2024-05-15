@@ -25,7 +25,6 @@ public class MyMessageHandler implements MessageListener {
         try {
 
             String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
-            //System.out.println(messageBody);
 
             // Extract the information from the message:
             JsonNode messageJson = new ObjectMapper().readTree(messageBody);
@@ -42,7 +41,6 @@ public class MyMessageHandler implements MessageListener {
             searchService.indexMessage(id, fromUser, toUser, messageText, date);
 
         } catch (IOException e) {
-            // Handle any exceptions that occur during message processing
             e.printStackTrace();
         }
     }
