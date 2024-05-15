@@ -2,12 +2,12 @@ package org.example.searchservice3.service;
 
 import org.example.searchservice3.entities.MessageDocument;
 import org.example.searchservice3.repository.SearchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchService {
@@ -30,9 +30,36 @@ public class SearchService {
         document.setDate(date);
         //elasticsearchOperations.save(document);
         searchRepository.save(document);
-        //System.out.println("Indexing message: " + id + " " + fromUser + " " + toUser + " " + messageText + " " + date);
+        System.out.println("Indexing message: " + id + " " + fromUser + " " + toUser + " " + messageText + " " + date);
     }
 
+
+    public List<MessageDocument> search(String text, String userID) {
+
+        List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
+
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<MessageDocument> searchMessagesInConversation(String text, String userID, String otherUserID) {
+        List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID, otherUserID);
+
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<MessageDocument> findByMessageAsYouType(String text, String userID) {
+        List<MessageDocument> messages = searchRepository.findByMessageAsYouType(text);
+
+        return messages.stream()
+                .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .collect(Collectors.toList());
+    }
 
     public String findMessageById(String id) {
 
