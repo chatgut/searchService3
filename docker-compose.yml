@@ -39,12 +39,12 @@ services:
       - xpack.security.enabled=false
 
   searchservice:
-    image: mattan41/chatgut:sha-128d5c1
+    image: my_searchservice #mattan41/chatgut:sha-21e6bd8
     container_name: searchService
     restart: on-failure
     depends_on:
-      - mongodb
       - rabbitMQ
+      - elasticsearch
     ports:
       - "8004:8004"
 
