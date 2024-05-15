@@ -39,7 +39,7 @@ services:
       - xpack.security.enabled=false
 
   searchservice:
-    image: mattan41/chatgut:latest
+    image: my_searchservice #mattan41/chatgut:sha-6ccc677
     container_name: searchService
     restart: on-failure
     depends_on:
