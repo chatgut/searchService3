@@ -12,7 +12,7 @@ public class ImperativeElasticsearchConfig extends ElasticsearchConfiguration {
     public ClientConfiguration clientConfiguration() {
 
         return ClientConfiguration.builder()
-                .connectedTo("elasticsearch:9200")
+                .connectedTo("localhost:9200")
                 .build();
     }
 }

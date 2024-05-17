@@ -5,6 +5,8 @@ import org.example.searchservice3.repository.SearchRepository;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,7 +23,7 @@ public class SearchService {
     }
 
 
-    public void indexMessage(String id, String fromUser, String toUser, String messageText, String date) {
+    public void indexMessage(String id, String fromUser, String toUser, String messageText, LocalDateTime date) {
         MessageDocument document = new MessageDocument();
         document.setId(id);
         document.setFrom(fromUser);
@@ -34,21 +36,25 @@ public class SearchService {
     }
 
 
-    public List<MessageDocument> search(String text, String userID) {
+    public List<String> search(String text, String userID) {
 
         List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID);
 
         return messages.stream()
                 .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .map(MessageDocument::getMessage)
                 .collect(Collectors.toList());
 
     }
 
-    public List<MessageDocument> searchMessagesInConversation(String text, String userID, String otherUserID) {
+    public List<String> searchMessagesInConversation(String text, String userID, String otherUserID) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 'Time' HH:mm:ss");
+
         List<MessageDocument> messages = searchRepository.findByMessageContainingWithSpellingErrorsAndToOrFromAndUserId(text, userID, otherUserID);
 
         return messages.stream()
                 .filter(message -> userID.equals(message.getFrom()) || userID.equals(message.getTo()))
+                .map(message -> message.getDate().format(formatter) + " - " + message.getMessage())
                 .collect(Collectors.toList());
 
     }

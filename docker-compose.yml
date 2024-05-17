@@ -38,15 +38,15 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
 
-  searchservice:
-    image: mattan41/chatgut:sha-6ccc677 #replace with latest image on dockerhub
-    container_name: searchService
-    restart: on-failure
-    depends_on:
-      - rabbitMQ
-      - elasticsearch
-    ports:
-      - "8004:8004"
+#  searchservice:
+#    image: mattan41/chatgut:v1.0
+#    container_name: searchService
+#    restart: on-failure
+#    depends_on:
+#      - rabbitMQ
+#      - elasticsearch
+#    ports:
+#      - "8004:8004"
 
 volumes:
   dbData:
