@@ -1,11 +1,10 @@
 # Searchservice 
-This microservice runs on port 8004 and enables users to search message content using Elasticsearch. It is dependent on Elasticsearch and RabbitMQ.
+This microservice runs on port 8004 and enables users to search message content using Elasticsearch. Searchservice depends on Elasticsearch and RabbitMQ.
 ___
-
-## Expected format
-Searchservice listens on the queue `messages` on rabbitMQ 
-and expects messages posted as jsonDocument in this format: 
+## Expected Format
+Search Service listens on the `messages` queue in RabbitMQ and expects messages posted in the following JSON document format:
 ```
+json
 {
     "_id": {
             "$oid": "664752b07daf56ec5f3e6bca"
@@ -16,11 +15,12 @@ and expects messages posted as jsonDocument in this format:
     "date": "2024-05-17T12:50:56.992273584Z"
 }
 ```
-the postservice included in the example further down below under docker-compose posts in this format.  
+The Post Service in the example below posts messages in this format.
+
 ___
 ## Endpoints
-The endpoint `/search` allows searching across all messages for a user. Optionally, you can include `otherUserID` to search within conversations between yourself and another user.
-Searchservice is dependent on RabbitMQ and ElasticSearch.
+The endpoint `/search` allows searching across all messages for a user. 
+You can optionally include `otherUserID` to search within conversations between yourself and another user.
 
 ### Search in Messages
 
@@ -40,7 +40,7 @@ Searchservice is dependent on RabbitMQ and ElasticSearch.
     GET /search?text=example&otherUserID=123
   ```
 ___
-## Running Serchservice with docker-compose
+## Running Searchservice with docker-compose: 
 ### ElasticSearch
 ```  
     elasticsearch:
@@ -106,5 +106,5 @@ ___
 ___
 
 ## Getting started
-1. Clone this repository
-2. run with docker-compose up
+1. Clone this repository.
+2. run with docker-compose up.
