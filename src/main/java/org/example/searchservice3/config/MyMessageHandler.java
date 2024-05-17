@@ -37,11 +37,13 @@ public class MyMessageHandler implements MessageListener {
             String fromUser = messageJson.get("from").asText();
             String toUser = messageJson.get("to").asText();
             String messageText = messageJson.get("message").asText();
-            String date = messageJson.get("date").asText(); // Assuming date is in String format
+
+            String date = messageJson.get("date").asText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
 
-            // Pass the extracted information to the search service for indexing
+
+// Pass the extracted information to the search service for indexing
             searchService.indexMessage(id, fromUser, toUser, messageText, dateTime);
 
         } catch (IOException e) {
