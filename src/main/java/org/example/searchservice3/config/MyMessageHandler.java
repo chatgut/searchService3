@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class MyMessageHandler implements MessageListener {
@@ -29,21 +27,15 @@ public class MyMessageHandler implements MessageListener {
 
             String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
 
-            // Extract the information from the message:
             JsonNode messageJson = new ObjectMapper().readTree(messageBody);
-
-            // Extract the information from the message
 
             String id = messageJson.get("_id").get("$oid").asText();
             String fromUser = messageJson.get("from").asText();
             String toUser = messageJson.get("to").asText();
             String messageText = messageJson.get("message").asText();
-
             String date = messageJson.get("date").asText();
             ZonedDateTime dateTime = ZonedDateTime.parse(date);
 
-
-// Pass the extracted information to the search service for indexing
             searchService.indexMessage(id, fromUser, toUser, messageText, dateTime);
 
         } catch (IOException e) {
