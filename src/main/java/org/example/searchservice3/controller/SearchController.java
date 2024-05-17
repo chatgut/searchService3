@@ -21,7 +21,7 @@ public class SearchController {
 
 
     @GetMapping("/search")
-    public List<String> search(@RequestHeader(name = "UserID") String userID,
+    public List<MessageDocument> search(@RequestHeader(name = "UserID") String userID,
                                         @RequestParam String text,
                                         @RequestParam(required = false) String otherUserID) {
 

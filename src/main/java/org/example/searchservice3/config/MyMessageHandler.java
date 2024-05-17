@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -39,8 +40,7 @@ public class MyMessageHandler implements MessageListener {
             String messageText = messageJson.get("message").asText();
 
             String date = messageJson.get("date").asText();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+            ZonedDateTime dateTime = ZonedDateTime.parse(date);
 
 
 // Pass the extracted information to the search service for indexing
