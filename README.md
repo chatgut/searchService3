@@ -1,10 +1,9 @@
 # Searchservice 
-This microservice runs on port 8004 and enables users to search message content using Elasticsearch. Searchservice depends on Elasticsearch and RabbitMQ.
+This microservice runs on port 8009 and enables users to search message content using Elasticsearch. Searchservice depends on Elasticsearch and RabbitMQ.
 ___
 ## Expected Format
-Search Service listens on the `messages` queue in RabbitMQ and expects messages posted in the following JSON document format:
+SearchService expects messages on port 5672 for the RabbitMQ fanout exchange `messages`, posted in the JSON document format:
 ```
-json
 {
     "_id": {
             "$oid": "664752b07daf56ec5f3e6bca"
@@ -63,6 +62,9 @@ ___
     ports:
       - "15672:15672"
       - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_FANOUT_EXCHANGE=fanoutExchange
 ```
 
 ### PostService

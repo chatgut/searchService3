@@ -28,6 +28,9 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_FANOUT_EXCHANGE=fanoutExchange
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.10.4
@@ -38,15 +41,15 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
 
-  searchservice:
-    image: mattan41/chatgut:v1.0
-    container_name: searchService
-    restart: on-failure
-    depends_on:
-      - rabbitMQ
-      - elasticsearch
-    ports:
-      - "8004:8004"
+#  searchservice:
+#    image: my_searchservice #mattan41/chatgut:v1.0
+#    container_name: searchService
+#    restart: on-failure
+#    depends_on:
+#      - rabbitMQ
+#      - elasticsearch
+#    ports:
+#      - "8009:8009"
 
 volumes:
   dbData:
