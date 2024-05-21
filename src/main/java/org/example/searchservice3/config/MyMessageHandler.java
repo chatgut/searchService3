@@ -3,6 +3,8 @@ package org.example.searchservice3.config;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.searchservice3.service.SearchService;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,11 +16,17 @@ import java.time.ZonedDateTime;
 
 @Service
 public class MyMessageHandler implements MessageListener {
-    private final SearchService searchService;
 
-    public MyMessageHandler(SearchService searchService) {
+    private final SearchService searchService;
+    private final AmqpAdmin amqpAdmin;
+    private final FanoutExchange fanoutExchange;
+
+    public MyMessageHandler(SearchService searchService, AmqpAdmin amqpAdmin, FanoutExchange fanoutExchange) {
         this.searchService = searchService;
+        this.amqpAdmin = amqpAdmin;
+        this.fanoutExchange = fanoutExchange;
     }
+
 
     @Override
     @RabbitListener(queues = "messages")
