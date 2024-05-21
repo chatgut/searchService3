@@ -29,7 +29,7 @@ public class MyMessageHandler implements MessageListener {
 
 
     @Override
-    @RabbitListener(queues = "messages")
+    @RabbitListener(queues = "messagesForElasticsearch")
     public void onMessage(Message message) {
         try {
 
