@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postservice
+  labels:
+    app: postservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postservice
+  template:
+    metadata:
+      name: postservice
+      labels:
+        app: postservice
+    spec:
+      containers:
+        - name: postservice
+          image: ghcr.io/chatgut/micropostservice:main
+          ports:
+            - containerPort: 8000
+          env:
+              - name: ROCKET_DATABASES
+                value: '{postservice={url="mongodb://dbMongoDB:27017"}}'
+              - name: ROCKET_RABBIT_HOST
+                value: "amqp://QueueRabbitMQ:5672"
+      restartPolicy: Always
+      
