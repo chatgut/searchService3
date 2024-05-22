@@ -41,15 +41,15 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
 
-#  searchservice:
-#    image: my_searchservice #mattan41/chatgut:v1.0
-#    container_name: searchService
-#    restart: on-failure
-#    depends_on:
-#      - rabbitMQ
-#      - elasticsearch
-#    ports:
-#      - "8009:8009"
+  searchservice:
+    image: mattan41/chatgut:v1.2
+    container_name: searchService
+    restart: on-failure
+    depends_on:
+      - rabbitMQ
+      - elasticsearch
+    ports:
+      - "8009:8009"
 
 volumes:
   dbData:
