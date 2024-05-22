@@ -21,6 +21,6 @@ spec:
           volumeMounts:
             - name: rabbitmq-data
               mountPath: /var/lib/rabbitmq
-  volumes:
-    - name: rabbitmq-data
-      emptyDir: {}
+      volumes:
+        - name: rabbitmq-data
+          emptyDir: {}

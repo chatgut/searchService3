@@ -20,6 +20,6 @@ spec:
           volumeMounts:
             - name: db-data
               mountPath: /var/lib/mongodb
-  volumes:
-    - name: db-data
-      emptyDir: {}
+      volumes:
+       - name: db-data
+         emptyDir: {}
