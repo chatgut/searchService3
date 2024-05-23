@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: searchservice
-          image: mattan41/chatgut:v1.2
+          image: mattan41/chatgut:v1.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8009
