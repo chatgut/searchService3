@@ -11,6 +11,7 @@ spec:
       app: elasticsearch
   template:
     metadata:
+      name: elasticsearch
       labels:
         app: elasticsearch
     spec:
