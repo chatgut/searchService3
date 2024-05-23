@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
+  labels:
+    app: elasticsearch
 spec:
   replicas: 1
   selector:
@@ -15,11 +17,20 @@ spec:
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:8.10.4
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9200
+              protocol: TCP
           env:
             - name: discovery.type
               value: single-node
             - name: xpack.security.enabled
-              value: false.
+              value: "false"
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: elasticsearch-data
+          persistentVolumeClaim:
+            claimName: elasticsearch-pv-claim
       restartPolicy: Always
