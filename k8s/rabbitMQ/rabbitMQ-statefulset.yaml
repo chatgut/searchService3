@@ -4,7 +4,7 @@ metadata:
   name: rabbitmq
 spec:
   serviceName: rabbitmq
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: rabbitmq
@@ -16,22 +16,26 @@ spec:
       containers:
         - name: rabbitmq
           image: rabbitmq:3-management
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5672
             - containerPort: 15672
-          env:
-            - name: RABBITMQ_DEFAULT_VHOST
-              value: /
-            - name: RABBITMQ_FANOUT_EXCHANGE
-              value: fanoutExchange
-          volumeMounts:
-            - name: rabbitmq-data
-              mountPath: /var/lib/rabbitmq
+#          volumeMounts:
+#            - name: rabbitmq-data
+#              mountPath: /var/lib/rabbitmq
       volumes:
-        - name: rabbitmq-data
-          persistentVolumeClaim:
-            claimName: rabbitmq-pv-claim
-      initContainers:
-        - name: enable-management-plugin
-          image: rabbitmq:3-management
-          command: ["rabbitmq-plugins", "enable", "rabbitmq_management"]
+        - name: rabbitmq-config
+          configMap:
+            name: rabbitmq-config
+            items:
+              - key: rabbitmq.conf
+                path: rabbitmq.conf
+              - key: enabled_plugins
+                path: enabled_plugins
+#        - name: rabbitmq-data
+#          persistentVolumeClaim:
+#            claimName: rabbitmq-pv-claim
+#      initContainers:
+#        - name: enable-management-plugin
+#          image: rabbitmq:3-management-alpine
+#          command: [ "rabbitmq-plugins", "enable", "rabbitmq_management" ]

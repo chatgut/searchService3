@@ -42,7 +42,7 @@ services:
       - xpack.security.enabled=false
 
   searchservice:
-    image: mattan41/chatgut:v1.2
+    image: mattan41/chatgut:v1.3
     container_name: searchService
     restart: on-failure
     depends_on:

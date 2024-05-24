@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  enabled_plugins: |
+    [rabbitmq_management, rabbitmq_peer_discovery_k8s].
+  rabbitmq.conf: |
+    default_vhost = /
+    fanout_exchange = fanoutExchange
+    rabbitmq_peer_discovery_k8s.host = https://kubernetes.docker.internal:6443
+    rabbitmq_peer_discovery_k8s.address_type = hostname
+    rabbitmq_peer_discovery_k8s.pod_ip_check = true
