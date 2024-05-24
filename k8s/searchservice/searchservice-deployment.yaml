@@ -27,8 +27,8 @@ spec:
               value: "elasticsearch-service"
             - name: ELASTICSEARCH_PORT
               value: "9200"
-            - name: ROCKET_RABBIT_HOST
-              value: "rabbitmq-app"
-            - name: ROCKET_RABBIT_PORT
+            - name: SPRING_RABBITMQ_HOST
+              value: "rabbitmq"
+            - name: SPRING_RABBITMQ_PORT
               value: "5672"
       restartPolicy: Always

@@ -8,6 +8,7 @@ data:
   rabbitmq.conf: |
     default_vhost = /
     fanout_exchange = fanoutExchange
-    rabbitmq_peer_discovery_k8s.host = https://kubernetes.docker.internal:6443
+    rabbitmq_peer_discovery_k8s.host = kubernetes.default.svc.cluster.local
+    rabbitmq_peer_discovery_k8s.port = 5672
     rabbitmq_peer_discovery_k8s.address_type = hostname
     rabbitmq_peer_discovery_k8s.pod_ip_check = true

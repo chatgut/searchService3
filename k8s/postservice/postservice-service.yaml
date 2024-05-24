@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: postservice
 spec:
   selector:
-    app: app
+    app: postservice
   ports:
     - protocol: TCP
       port: 8000
       targetPort: 8000
-  
+  type: ClusterIP

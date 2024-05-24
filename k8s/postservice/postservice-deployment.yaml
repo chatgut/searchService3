@@ -24,6 +24,6 @@ spec:
               - name: ROCKET_DATABASES
                 value: '{postservice={url="mongodb://dbMongoDB:27017"}}'
               - name: ROCKET_RABBIT_HOST
-                value: "amqp://QueueRabbitMQ:5672"
+                value: "amqp://rabbitmq:5672"
       restartPolicy: Always
       
